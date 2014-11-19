@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.springapp.mvc.domain.Song" alias="song"/>
+    </typeAliases>
+
+    <!--<typeHandlers>
+        <typeHandler javaType="java.util.Date" handler="velti.tech.pms.system.daosupport.typehandler.UtcDateToTimestampTypeHandler"/>
+        <typeHandler javaType="java.util.Date" jdbcType="TIMESTAMP"  handler="velti.tech.pms.system.daosupport.typehandler.UtcDateToTimestampTypeHandler"/>
+        <typeHandler javaType="java.util.Date" jdbcType="DATE"  handler="velti.tech.pms.system.daosupport.typehandler.UtcDateToDateTypeHandler"/>
+        <typeHandler javaType="velti.tech.pms.system.common.domain.DynamicAttributes" handler="velti.tech.pms.system.daosupport.typehandler.DynamicAttributesTypeHandler" />
+    </typeHandlers>
+    <objectFactory type="velti.tech.pms.system.daosupport.ObjectFactory" />-->
+</configuration>

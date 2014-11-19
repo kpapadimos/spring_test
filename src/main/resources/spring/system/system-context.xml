@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	   	http://www.springframework.org/schema/tx
+	   	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/aop
+       	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       	http://www.springframework.org/schema/cache
+       	http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/> -->
+        <!-- <property name="url" value="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(LOAD_BALANCE=yes)(ADDRESS=(PROTOCOL=TCP)(HOST=k44-db1-vip)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=k44-db2-vip)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=k44-db3-vip)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=k44-db4-vip)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=K44DB_DEV_RAC)))"/> -->
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://postgres-home-dev.cvwfig595l14.eu-west-1.rds.amazonaws.com:5432/mypostgres"/>
+        <property name="username" value="kpapadimos"/>
+        <property name="password" value="kal0kA1r1"/>
+        <property name="defaultAutoCommit" value="false"/>
+        <!-- Enable execution of Oracle Specific connection actions, see AdvancedQueuesDao line 373 -->
+        <property name="accessToUnderlyingConnectionAllowed" value="true"/>
+        <!--Transaction Isolation: 8 => SERIALIZABLE -->
+        <!--<property name="defaultTransactionIsolation" value="8"/>-->
+        <property name="maxActive" value="120"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:ibatis/mybatis-config.xml"/>
+        <!-- <property name="typeAliasesPackage" ref="typeAliasesPackage"/> -->
+        <property name="mapperLocations" ref="mapperLocations"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="mapperLocations" class="com.springapp.mvc.MyBatisConfigurer" factory-method="generateMapperLocations">
+        <constructor-arg name="pathPattern" value="/velti/tech/pms/**/*-mapper.xml,/ibatis/*-mapper.xml"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>
