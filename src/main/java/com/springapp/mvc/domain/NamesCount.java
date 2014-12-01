@@ -18,7 +18,7 @@ public class NamesCount {
         //Integer nameCount = counts.get(name);
 
         if (counts.containsKey(name)) {
-            counts.put(name, counts.get(name).intValue() + 1);
+            counts.put(name, counts.get(name) + 1);
         } else {
             counts.put(name, 1);
         }
@@ -38,7 +38,7 @@ public class NamesCount {
      */
     public double nameProportion(String name) {
         if (counts.get(name) != null) {
-            return Double.parseDouble(counts.get(name).intValue() + "") / Double.parseDouble(count + "");
+            return Double.parseDouble(counts.get(name) + "") / Double.parseDouble(count + "");
         } else {
             return 0;
         }
