@@ -5,11 +5,17 @@
 
     <bean name="testService" class="com.springapp.mvc.service.TestService">
         <property name="testDao" ref="testDao"/>
+        <property name="oracleDao" ref="oracleDao"/>
     </bean>
 
     <bean id="testDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="com.springapp.mvc.dao.TestDao"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="oracleDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.springapp.mvc.dao.OracleDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryOracle"/>
     </bean>
 
 </beans>

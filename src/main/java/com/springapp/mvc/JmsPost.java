@@ -29,20 +29,19 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 //@ContextConfiguration("file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
 @ContextConfiguration(locations = {"classpath*:spring/system/*-context.xml","file:src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml"})
-public class AppTests {
+public class JmsPost {
     private MockMvc mockMvc;
-
-    final static short x = 2;
-    public static int y = 0;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     protected WebApplicationContext wac;
 
     @Autowired
+    static
     TestService testService;
 
     @Autowired
+    static
     JmsTemplate myJmsTemplate;
 
     @Before
@@ -50,53 +49,12 @@ public class AppTests {
         this.mockMvc = webAppContextSetup(this.wac).build();
     }
 
-    @Test
-    public void simple() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("hello"));
-    }
-
-    @Test
-    public void staticTest() throws Exception {
-        Song mysong = new Song();
-        List<Song> songsList = testService.getSongsList();
-        for (int i = 0; i < songsList.size(); i++) {
-             System.out.println(songsList.get(i).getNumberOfSongs() + "--" + songsList.get(i).getId() + "--" + songsList.get(i).getName());
-        }
-
-        String s = "abbcccddddcccbba";
-        char previous = '\0';
-        NavigableMap<String, Integer> myMap = new TreeMap<String, Integer>();
-
-        for(int i = 0, n = s.length() ; i < n ; i++) {
-            char c = s.charAt(i);
-
-            if (previous == c) { // If previous character matches current
-                if (myMap.containsKey(c + "")) {
-                    myMap.put(c + "", Integer.parseInt(myMap.get(c + "").longValue()+1 + ""));
-                }
-            } else {
-                myMap.put(c + "", Integer.parseInt("1"));
-            }
-            previous = c;
-        }
-
-        String searchString = "";
-        for(int j = 0; j < myMap.lastEntry().getValue() ; j++) {
-            searchString+=myMap.lastEntry().getKey();
-        }
-
-        System.out.println(s.indexOf(searchString));
-    }
-
-    @Test
-    public void ordersJMS() {
+    public static void main(String[] args) {
         try {
             List<String> orderIDs = testService.getOrderIDs();
             System.out.println("OK");
 
-            myJmsTemplate.send(
+            /*myJmsTemplate.send(
                     new MessageCreator() {
                         public ObjectMessage createMessage(Session session) throws JMSException {
                             ObjectMessage message = session.createObjectMessage();
@@ -107,7 +65,7 @@ public class AppTests {
 
             Message receivedMessage = myJmsTemplate.receive("vfuk.logistics.order.request.error");
             ObjectMessage msg = (ObjectMessage) receivedMessage;
-            System.out.println("Message Received :" + msg.getObject().toString());
+            System.out.println("Message Received :" + msg.getObject().toString());*/
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
