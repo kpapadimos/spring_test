@@ -96,7 +96,7 @@ public class AppTests {
             List<String> orderIDs = testService.getOrderIDs();
             System.out.println("OK");
 
-            myJmsTemplate.send(
+            /*myJmsTemplate.send(
                     new MessageCreator() {
                         public ObjectMessage createMessage(Session session) throws JMSException {
                             ObjectMessage message = session.createObjectMessage();
@@ -107,7 +107,7 @@ public class AppTests {
 
             Message receivedMessage = myJmsTemplate.receive("vfuk.logistics.order.request.error");
             ObjectMessage msg = (ObjectMessage) receivedMessage;
-            System.out.println("Message Received :" + msg.getObject().toString());
+            System.out.println("Message Received :" + msg.getObject().toString());*/
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
